@@ -4,6 +4,7 @@ import (
 	"fiber-test/internal/models"
 	"fiber-test/internal/utils"
 	"github.com/gofiber/fiber/v2"
+	"log"
 	"strconv"
 )
 
@@ -27,6 +28,8 @@ func (r *Controller) GetUserByID(c *fiber.Ctx) error {
 
 func (r *Controller) CreateUser(c *fiber.Ctx) error {
 	var request models.CreateUserRequest
+
+	log.Println(string(c.Body()))
 	if err := c.BodyParser(&request); err != nil {
 		return utils.HandleAPIError(c, err)
 	}

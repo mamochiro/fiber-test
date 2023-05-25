@@ -1,7 +1,7 @@
-package controllers_test
+package routes_test
 
 import (
-	"fiber-test/internal/controllers/test"
+	"fiber-test/internal/routes/test"
 	"github.com/stretchr/testify/suite"
 	"testing"
 )

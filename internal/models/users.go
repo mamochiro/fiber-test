@@ -14,8 +14,8 @@ type User struct {
 }
 
 type CreateUserRequest struct {
-	Name  string
-	Email string
+	Name  string `json:"name"`
+	Email string `json:"email"`
 }
 
 func (c *User) AddList(name, email string) {
