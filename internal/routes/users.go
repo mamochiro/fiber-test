@@ -1,12 +1,16 @@
 package routes
 
 import (
-	usersCtrl "fiber-test/internal/controllers"
+	ctrl "fiber-test/internal/controllers"
+	svc "fiber-test/internal/service"
 	"github.com/gofiber/fiber/v2"
 )
 
 func SetupUsersRoutes(app *fiber.App) {
-	controller := usersCtrl.NewController()
+	service := svc.NewService()
+	controller := ctrl.NewController(
+		service,
+	)
 	users := app.Group("/users")
 	// Auth routes
 	users.Get("/", controller.GetUser)

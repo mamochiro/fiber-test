@@ -8,7 +8,8 @@ import (
 )
 
 func (r *Controller) GetUser(c *fiber.Ctx) error {
-	return c.JSON(models.UserLists)
+	users := r.service.GetUsers()
+	return c.JSON(users)
 }
 
 func (r *Controller) GetUserByID(c *fiber.Ctx) error {
@@ -17,37 +18,32 @@ func (r *Controller) GetUserByID(c *fiber.Ctx) error {
 	if err != nil {
 		return utils.HandleAPIError(c, err)
 	}
-	user := models.User{}
-	data, err := user.GetUserByID(id)
+	data, err := r.service.GetUserByID(id)
 	if err != nil {
-		return utils.HandleAPIError(c, err)
+		return err
 	}
 	return c.JSON(data)
 }
 
 func (r *Controller) CreateUser(c *fiber.Ctx) error {
-	var (
-		request models.CreateUserRequest
-		user    models.User
-	)
+	var request models.CreateUserRequest
 	if err := c.BodyParser(&request); err != nil {
 		return utils.HandleAPIError(c, err)
 	}
-	user.AddList(request.Name, request.Email)
+	err := r.service.CreateUser(request.Name, request.Email)
+	if err != nil {
+		return utils.HandleAPIError(c, err)
+	}
 	return nil
 }
 
 func (r *Controller) RemoveUser(c *fiber.Ctx) error {
 	idParam := c.Params("id")
-
 	id, err := strconv.Atoi(idParam)
-
 	if err != nil {
 		return utils.HandleAPIError(c, err)
 	}
-	user := models.User{}
-	err = user.RemoveList(id)
-	if err != nil {
+	if err := r.service.DeleteUser(id); err != nil {
 		return utils.HandleAPIError(c, err)
 	}
 	return nil
