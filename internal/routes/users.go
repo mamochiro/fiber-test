@@ -10,4 +10,7 @@ func SetupUsersRoutes(app *fiber.App) {
 	users := app.Group("/users")
 	// Auth routes
 	users.Get("/", controller.GetUser)
+	users.Get("/:id", controller.GetUserByID)
+	users.Post("/", controller.CreateUser)
+	users.Delete("/:id", controller.RemoveUser)
 }
